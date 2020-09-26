@@ -19,6 +19,7 @@ let Players = [];
 client.on('ready', function () {
     channel = client.channels.cache.get(channelGeneral);
     console.log("Mon BOT est Connecté");
+    sendMessage(`Tape !help to see all the commands`);
     Players[Players.length] = new PlayerConstructor(adminTag);
 })
 
