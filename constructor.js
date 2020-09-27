@@ -33,7 +33,7 @@ class Weapons {
     }
 };
 
-module.exports.Fonctions = {
+module.exports.Functions = {
     getStatsPlayer,
     getPlayerProfil
 }

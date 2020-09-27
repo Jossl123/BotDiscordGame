@@ -6,12 +6,17 @@ module.exports = {
 
 const Main = require('./main.js');
 const ConstructFonc = require('./constructor').Fonctions;
+const CommandsFunctions = require('./classCommands');
 
 let heure = 12;
 let minute = 0;
 let heurepassé = false;
 
 function messageEnter(message, datefonc, args, command, Players){
+
+    if(command == "help"){
+        CommandsFunctions.help(args);
+    }
 
     if(command == "playerlist"){
         for (let i = 0; i < Players.length; i++) {
@@ -35,6 +40,7 @@ function messageEnter(message, datefonc, args, command, Players){
     {
         message.channel.send(`Il est : ${datefonc.getHours()}h${datefonc.getMinutes()}`);
     }
+
     if(command == "date")
     {
         let mois = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"];

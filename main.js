@@ -8,6 +8,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const Constructor = require('./constructor');
 const PlayerConstructor = Constructor.Player;
+const CommandsFonction = require('./classCommands');
 const Commands = require('./commands');
 const Maps = require('./mapConstructor');
 const { prefix, token, admin, adminTag, channelGeneral, channelWelcome} = require('./config');
@@ -21,6 +22,7 @@ client.on('ready', function () {
     console.log("Mon BOT est Connecté");
     sendMessage(`Tape !help to see all the commands`);
     Players[Players.length] = new PlayerConstructor(adminTag);
+    CommandsFonction.createCommand();
 })
 
 client.on('guildMemberAdd', member => {
