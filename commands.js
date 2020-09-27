@@ -6,6 +6,7 @@ module.exports = {
 
 const Main = require('./main.js');
 const ConstructFonc = require('./constructor').Functions;
+const PlayerConstructor = require('./constructor').Player;
 const CommandsFunctions = require('./classCommands');
 
 let heure = 12;
@@ -41,7 +42,7 @@ function messageEnter(message, datefonc, args, command, Players, admin){
     {
         let mois = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"];
         let jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
-        Main.sendMessage(`Nous sommes le ${jours[datefonc.getDay() - 1]} ${datefonc.getDate()} ${mois[datefonc.getMonth()]} ${datefonc.getFullYear()}`, "general"); 
+        Main.sendMessage(`Today it's ${jours[datefonc.getDay() - 1]} ${datefonc.getDate()} ${mois[datefonc.getMonth()]} ${datefonc.getFullYear()}`, "general"); 
     }
 
     if(message.author.id != admin && (command == "sethour" || command == "heal" || command == "dammage" || command == "addplayer" )){
@@ -57,15 +58,15 @@ function messageAdminEnter(message, datefonc, args, command, Players, admin){
                 if(0 <= args[1] && args[1] <= 59){
                     heure = args[0];
                     minute = args[1];
-                    Main.sendMessage(`L'heure d'envoie du message auto à bien été changée pour ${heure}h${minute}`, "general")
+                    Main.sendMessage(`The hour of auto-send message have been update to ${heure}h${minute}`, "general")
                 }else{
-                    Main.sendMessage("Vous devez indiquer des minutes valable (entre 0 et 59 inclus)", "general");
+                    Main.sendMessage("You must indicate valid minutes (between 0 and 59 inclued)", "general");
                 }
             }else{
-                Main.sendMessage("Vous devez indiquer une heure valable (entre 0 et 23 inclus)", "general");
+                Main.sendMessage("You must indicate an valid hour (between 0 and 23 inclued)", "general");
             }
         }else{
-            Main.sendMessage("Vous devez indiquer une heure et des minutes (par exemple !sethour 10 15 (10h et 15min))", "general");
+            Main.sendMessage("You must indicate an hour and minutes (for example !sethour 10 15 (10h and 15min))", "general");
         }
     }
 
@@ -78,10 +79,10 @@ function messageAdminEnter(message, datefonc, args, command, Players, admin){
             if(ConstructFonc.getPlayerProfil(args, Players)){
                 Players[ConstructFonc.getPlayerProfil(args, Players)].takeDammage(Players[ConstructFonc.getPlayerProfil(message.author.tag, Players)], Players);
             }else{
-                Main.sendMessage("Vous devez indiquer un nom valide", "general");
+                Main.sendMessage("You have to write a valid name", "general");
             }
         }else{
-            Main.sendMessage("Vous devez indiquer un nom", "general");
+            Main.sendMessage("You have to write a name", "general");
         }
     }
 
@@ -96,7 +97,7 @@ function Update(){
 
     if(datefonc.getHours()==heure && datefonc.getMinutes()==minute && heurepassé == false){
         heurepassé = true;
-        Main.sendMessage("c'est l'heure", "general");
+        Main.sendMessage("It's time", "general");
     }
     else if(datefonc.getHours()==heure && datefonc.getMinutes()== minute+1 && heurepassé == true){
         heurepassé = false;

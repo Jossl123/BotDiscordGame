@@ -5,6 +5,7 @@ module.exports = {
 };
 
 const Discord = require('discord.js');
+const fs = require('fs');
 const client = new Discord.Client();
 const Constructor = require('./constructor');
 const PlayerConstructor = Constructor.Player;
@@ -18,7 +19,8 @@ let welcome = client.channels.cache.get(channelWelcome);
 let errors = client.channels.cache.get(channelErrors);
 let action = client.channels.cache.get(channelActions);
 let private = "";
-let Players = [];
+let PlayersJson = JSON.parse(fs.readFileSync('./savePlayers.json'));
+let Players = []
 
 //Toutes les actions à faire quand le bot se connecte
 client.on('ready', function () {
@@ -29,9 +31,12 @@ client.on('ready', function () {
     action = client.channels.cache.get(channelActions);
 
     console.log("Mon BOT est Connecté");
-    sendMessage(`Tape !help to see all the commands`, welcome);
 
-    Players[Players.length] = new PlayerConstructor(adminTag);
+    for (let i = 0; i < PlayersJson.length; i++) {
+        Players[Players.length] = new PlayerConstructor(PlayersJson[Players.length].name, PlayersJson[Players.length].health, PlayersJson[Players.length].speed);
+    }
+    
+    sendMessage(`Tape !help to see all the commands`, welcome);
 
     CommandsFonction.createCommand();
 })
@@ -41,6 +46,7 @@ client.on('guildMemberAdd', member => {
     sendMessage(`Welcome to the server, ${member}`, "welcome");
     //crée un object joueur
     Players[Players.length] = new PlayerConstructor(member.user.tag);
+    PlayersJson = fs.writeFileSync('./savePlayers.json', JSON.stringify(Players, null, 2));
 });
 
 client.on('message', message => {
@@ -58,6 +64,8 @@ client.on('message', message => {
     }else{
         Commands.messageEnter(message, datefonc, args, command, Players, admin);
     }
+
+    PlayersJson = fs.writeFileSync('./savePlayers.json', JSON.stringify(Players, null, 2));
 });
 
 function sendMessage(message, channel){
@@ -86,9 +94,9 @@ function splicePlayer(playerpos){
 function AddPlayer(args){
     if(!args == ""){
         Players[Players.length] = new PlayerConstructor(args);
-        sendMessage(`${args} vient d'être ajoutée`, "general");
+        sendMessage(`${args} have been added to the game`, "general");
     }else{
-        sendMessage(`Vous devez indiquer un nom`, "general");
+        sendMessage(`You have to write a name`, "general");
     }
 }
 
