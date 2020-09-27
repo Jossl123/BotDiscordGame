@@ -10,14 +10,16 @@ const client = new Discord.Client();
 const Constructor = require('./constructor');
 const PlayerConstructor = Constructor.Player;
 const CommandsFonction = require('./classCommands');
+const Shop = require('./Shop');
 const Commands = require('./commands');
 const Maps = require('./mapConstructor');
-const { prefix, token, admin, adminTag, channelGeneral, channelWelcome, channelErrors, channelActions} = require('./config');
+const { prefix, token, admin, adminTag, channelGeneral, channelWelcome, channelErrors, channelActions, channelShop} = require('./config');
 
 let general = client.channels.cache.get(channelGeneral);
 let welcome = client.channels.cache.get(channelWelcome);
 let errors = client.channels.cache.get(channelErrors);
 let action = client.channels.cache.get(channelActions);
+let shop = client.channels.cache.get(channelShop);
 let private = "";
 let PlayersJson = JSON.parse(fs.readFileSync('./savePlayers.json'));
 let Players = []
@@ -29,6 +31,7 @@ client.on('ready', function () {
     welcome = client.channels.cache.get(channelWelcome);
     errors = client.channels.cache.get(channelErrors);
     action = client.channels.cache.get(channelActions);
+    shop = client.channels.cache.get(channelShop);
 
     console.log("Mon BOT est Connecté");
 
@@ -37,6 +40,8 @@ client.on('ready', function () {
     }
     
     sendMessage(`Tape !help to see all the commands`, welcome);
+
+    Shop.shop();
 
     CommandsFonction.createCommand();
 })
@@ -84,6 +89,9 @@ function sendMessage(message, channel){
         if(channel == "error"){
             errors.send("`"+message+"`");
         }
+        if(channel == "shop"){
+            shop.send("`"+message+"`");
+        }
     }
 };
 
@@ -101,6 +109,5 @@ function AddPlayer(args){
 }
 
 setInterval(function (){Commands.Update()}, 1000);
-
 
 client.login(token);

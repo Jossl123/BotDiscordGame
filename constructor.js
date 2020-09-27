@@ -1,12 +1,12 @@
 const Main = require('./main');
 
 module.exports.Player = class Player {
-    constructor(name = "default", health = 100, speed = 10) {
+    constructor(name = "default", health = 100) {
         this.name = name;
         this.health = health;
-        this.speed = speed;
-        this.weapon = new Weapons();
         this.heal_potion = 10;
+        this.gold = 100;
+        this.weapon = new Weapons();
     }
     takeDammage(attaquant, Players){
         Main.sendMessage(`${attaquant.name} a fait perdre ${attaquant.weapon.dammage} hp à ${this.name}`, "actions");
