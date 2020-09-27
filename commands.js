@@ -5,8 +5,9 @@ module.exports = {
 }
 
 const Main = require('./main.js');
-const ConstructFonc = require('./constructor').Fonctions;
+const ConstructFonc = require('./constructor').Functions;
 const CommandsFunctions = require('./classCommands');
+const { sendMessage } = require('./main.js');
 
 let heure = 12;
 let minute = 0;
@@ -20,7 +21,7 @@ function messageEnter(message, datefonc, args, command, Players){
 
     if(command == "playerlist"){
         for (let i = 0; i < Players.length; i++) {
-            Main.sendMessage("`"+`${i + 1} - ${Players[i].name}`+"`");
+            Main.sendMessage("`"+`${i + 1} - ${Players[i].name}`+"`", "general");
         }
     }
 
@@ -32,20 +33,16 @@ function messageEnter(message, datefonc, args, command, Players){
         }
     }
 
-    if(command == "ping"){
-        message.channel.send("pong");
-    }
-
     if(command == "hour")
     {
-        message.channel.send(`Il est : ${datefonc.getHours()}h${datefonc.getMinutes()}`);
+        Main.sendMessage(`Il est : ${datefonc.getHours()}h${datefonc.getMinutes()}`, "general");
     }
 
     if(command == "date")
     {
         let mois = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"];
         let jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
-        message.channel.send(`Nous sommes le ${jours[datefonc.getDay() - 1]} ${datefonc.getDate()} ${mois[datefonc.getMonth()]} ${datefonc.getFullYear()}`); 
+        Main.sendMessage(`Nous sommes le ${jours[datefonc.getDay() - 1]} ${datefonc.getDate()} ${mois[datefonc.getMonth()]} ${datefonc.getFullYear()}`, "general"); 
     }
 
 };
@@ -58,15 +55,15 @@ function messageAdminEnter(message, datefonc, args, command, Players){
                 if(0 <= args[1] && args[1] <= 59){
                     heure = args[0];
                     minute = args[1];
-                    message.channel.send(`L'heure d'envoie du message auto à bien été changée pour ${heure}h${minute}`)
+                    Main.sendMessage(`L'heure d'envoie du message auto à bien été changée pour ${heure}h${minute}`, "general")
                 }else{
-                    message.channel.send("Vous devez indiquer des minutes valable (entre 0 et 59 inclus)");
+                    Main.sendMessage("Vous devez indiquer des minutes valable (entre 0 et 59 inclus)", "general");
                 }
             }else{
-                message.channel.send("Vous devez indiquer une heure valable (entre 0 et 23 inclus)");
+                Main.sendMessage("Vous devez indiquer une heure valable (entre 0 et 23 inclus)", "general");
             }
         }else{
-            message.channel.send("Vous devez indiquer une heure et des minutes (par exemple !sethour 10 15 (10h et 15min))");
+            Main.sendMessage("Vous devez indiquer une heure et des minutes (par exemple !sethour 10 15 (10h et 15min))", "general");
         }
     }
 
@@ -89,7 +86,7 @@ function Update(){
 
     if(datefonc.getHours()==heure && datefonc.getMinutes()==minute && heurepassé == false){
         heurepassé = true;
-        Main.sendMessage("c'est l'heure");
+        Main.sendMessage("c'est l'heure", "general");
     }
     else if(datefonc.getHours()==heure && datefonc.getMinutes()== minute+1 && heurepassé == true){
         heurepassé = false;

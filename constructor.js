@@ -8,20 +8,17 @@ module.exports.Player = class Player {
         this.weapon = new Weapons();
         this.heal_potion = 10;
     }
-    display(){
-        Main.sendMessage(`${this.name} ${this.health} ${this.speed}`);
-    }
     takeDammage(attaquant, Players){
-        Main.sendMessage(`${attaquant.name} a fait perdre ${attaquant.weapon.dammage} hp à ${this.name}`);
+        Main.sendMessage(`${attaquant.name} a fait perdre ${attaquant.weapon.dammage} hp à ${this.name}`, "actions");
         this.health -= attaquant.weapon.dammage;
         if(this.health <= 0){
-            Main.sendMessage(`${this.name} est mort`);
+            Main.sendMessage(`${this.name} est mort`, "actions");
             Main.splicePlayer(getPlayerProfil(this.name, Players));
         }
     }
     heal(){
         this.health += this.heal_potion;
-        Main.sendMessage(`${this.name} s'est soigné de ${this.heal_potion}hp`);
+        Main.sendMessage(`${this.name} s'est soigné de ${this.heal_potion}hp`, "actions");
     }
 };
 
@@ -41,9 +38,9 @@ module.exports.Functions = {
 function getStatsPlayer(playertag, Players, args){
     const i = getPlayerProfil(playertag, Players);
     if(args == ""){
-        Main.sendMessage(`Vous êtes ${Players[i].name} et vous avez ${Players[i].health}hp `);
+        Main.sendMessage(`Vous êtes ${Players[i].name} et vous avez ${Players[i].health}hp `, "general");
     }else{
-        Main.sendMessage(`${Players[i].name} a ${Players[i].health}hp `);
+        Main.sendMessage(`${Players[i].name} a ${Players[i].health}hp `, "general");
     }
 }
 
@@ -59,9 +56,9 @@ function getPlayerProfil(playertag, Players){
         return playerpos;
     }else{
         if(playerpos.length > 1){
-            Main.sendMessage("Your user tag collapsed with another");
+            Main.sendMessage("Your user tag collapsed with another", "error");
         }else{
-            Main.sendMessage("Your user tag is not referenced");
+            Main.sendMessage("Your user tag is not referenced", "error");
         }
     }
 };

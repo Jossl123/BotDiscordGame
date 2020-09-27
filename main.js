@@ -11,26 +11,34 @@ const PlayerConstructor = Constructor.Player;
 const CommandsFonction = require('./classCommands');
 const Commands = require('./commands');
 const Maps = require('./mapConstructor');
-const { prefix, token, admin, adminTag, channelGeneral, channelWelcome} = require('./config');
+const { prefix, token, admin, adminTag, channelGeneral, channelWelcome, channelErrors, channelActions} = require('./config');
 
-let channel = client.channels.cache.get(channelGeneral);
+let general = client.channels.cache.get(channelGeneral);
+let welcome = client.channels.cache.get(channelWelcome);
+let errors = client.channels.cache.get(channelErrors);
+let action = client.channels.cache.get(channelActions);
+let private = "";
 let Players = [];
 
 //Toutes les actions à faire quand le bot se connecte
 client.on('ready', function () {
-    channel = client.channels.cache.get(channelGeneral);
+
+    general = client.channels.cache.get(channelGeneral);
+    welcome = client.channels.cache.get(channelWelcome);
+    errors = client.channels.cache.get(channelErrors);
+    action = client.channels.cache.get(channelActions);
+
     console.log("Mon BOT est Connecté");
-    sendMessage(`Tape !help to see all the commands`);
+    sendMessage(`Tape !help to see all the commands`, welcome);
+
     Players[Players.length] = new PlayerConstructor(adminTag);
+
     CommandsFonction.createCommand();
 })
 
 client.on('guildMemberAdd', member => {
   // Send the message to a designated channel on a server:
-    const channel = member.guild.channels.cache.get(channelWelcome);
-    if (!channel) console.log("channel non trouvé");
-    channel.send(`Welcome to the server, ${member}`);
-
+    sendMessage(`Welcome to the server, ${member}`, "welcome");
     //crée un object joueur
     Players[Players.length] = new PlayerConstructor(member.user.tag);
 });
@@ -38,7 +46,8 @@ client.on('guildMemberAdd', member => {
 client.on('message', message => {
 
     if (!message.content.startsWith(prefix) || message.author.bot) return;
-    
+
+    private = message.author;
     const datefonc = new Date();
     const args = message.content.slice(prefix.length).trim().split(' ');
     const command = args.shift().toLowerCase();
@@ -51,8 +60,23 @@ client.on('message', message => {
     }
 });
 
-function sendMessage(message){
-    channel.send("`"+message+"`");
+function sendMessage(message, channel){
+    if(channel == "private"){
+        private.send("`"+message+"`");
+    }else{
+        if(channel == "actions"){
+            action.send("`"+message+"`");
+        }
+        if(channel == "general"){
+            general.send("`"+message+"`");
+        }
+        if(channel == "welcome"){
+            welcome.send("`"+message+"`");
+        }
+        if(channel == "error"){
+            error.send("`"+message+"`");
+        }
+    }
 };
 
 function splicePlayer(playerpos){
@@ -62,9 +86,9 @@ function splicePlayer(playerpos){
 function AddPlayer(args){
     if(!args == ""){
         Players[Players.length] = new PlayerConstructor(args);
-        sendMessage(`${args} vient d'être ajoutée`);
+        sendMessage(`${args} vient d'être ajoutée`, "general");
     }else{
-        sendMessage(`Vous devez indiquer un nom`);
+        sendMessage(`Vous devez indiquer un nom`, "general");
     }
 }
 
