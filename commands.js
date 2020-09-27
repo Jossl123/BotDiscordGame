@@ -7,13 +7,12 @@ module.exports = {
 const Main = require('./main.js');
 const ConstructFonc = require('./constructor').Functions;
 const CommandsFunctions = require('./classCommands');
-const { sendMessage } = require('./main.js');
 
 let heure = 12;
 let minute = 0;
 let heurepassé = false;
 
-function messageEnter(message, datefonc, args, command, Players){
+function messageEnter(message, datefonc, args, command, Players, admin){
 
     if(command == "help"){
         CommandsFunctions.help(args);
@@ -45,9 +44,12 @@ function messageEnter(message, datefonc, args, command, Players){
         Main.sendMessage(`Nous sommes le ${jours[datefonc.getDay() - 1]} ${datefonc.getDate()} ${mois[datefonc.getMonth()]} ${datefonc.getFullYear()}`, "general"); 
     }
 
+    if(message.author.id != admin && (command == "sethour" || command == "heal" || command == "dammage" || command == "addplayer" )){
+        Main.sendMessage("You're not allowed to do this command", "private");
+    }
 };
 
-function messageAdminEnter(message, datefonc, args, command, Players){
+function messageAdminEnter(message, datefonc, args, command, Players, admin){
     
     if(command == "sethour"){
         if(parseInt(args[0]) && parseInt(args[1]) || args[0] == 0 && parseInt(args[1]) || parseInt(args[0]) && args[1] == 0){
@@ -72,7 +74,15 @@ function messageAdminEnter(message, datefonc, args, command, Players){
     }
 
     if(command == "dammage"){
-        Players[ConstructFonc.getPlayerProfil(args, Players)].takeDammage(Players[ConstructFonc.getPlayerProfil(message.author.tag, Players)], Players);
+        if(args != ""){
+            if(ConstructFonc.getPlayerProfil(args, Players)){
+                Players[ConstructFonc.getPlayerProfil(args, Players)].takeDammage(Players[ConstructFonc.getPlayerProfil(message.author.tag, Players)], Players);
+            }else{
+                Main.sendMessage("Vous devez indiquer un nom valide", "general");
+            }
+        }else{
+            Main.sendMessage("Vous devez indiquer un nom", "general");
+        }
     }
 
     if(command == "addplayer"){

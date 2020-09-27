@@ -2,6 +2,8 @@ module.exports = {
     generateMap
 };
 
+const Main = require('./main');
+
 function generateMap(bot){
-    channel = bot.channels.cache.find(ch => ch.name === 'map')
+    Main.sendMessage("", "general");
 };

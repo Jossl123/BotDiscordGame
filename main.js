@@ -52,11 +52,11 @@ client.on('message', message => {
     const args = message.content.slice(prefix.length).trim().split(' ');
     const command = args.shift().toLowerCase();
 
-    if(message.member.user.id == admin){
-        Commands.messageAdminEnter(message, datefonc, args, command, Players);
-        Commands.messageEnter(message, datefonc, args, command, Players);
+    if(message.author == admin){
+        Commands.messageAdminEnter(message, datefonc, args, command, Players, admin);
+        Commands.messageEnter(message, datefonc, args, command, Players, admin);
     }else{
-        Commands.messageEnter(message, datefonc, args, command, Players);
+        Commands.messageEnter(message, datefonc, args, command, Players, admin);
     }
 });
 
@@ -74,7 +74,7 @@ function sendMessage(message, channel){
             welcome.send("`"+message+"`");
         }
         if(channel == "error"){
-            error.send("`"+message+"`");
+            errors.send("`"+message+"`");
         }
     }
 };
