@@ -1,12 +1,13 @@
 const Main = require('./main');
+const WeaponsArr = require('./weaponsConstructor').WeaponsArr;
 
 module.exports.Player = class Player {
-    constructor(name = "default", health = 100) {
+    constructor(name = "default", health = 100, heal_potion = 10, gold = 100, weapon = WeaponsArr[0]) {
         this.name = name;
         this.health = health;
-        this.heal_potion = 10;
-        this.gold = 100;
-        this.weapon = new Weapons();
+        this.heal_potion = heal_potion;
+        this.gold = gold;
+        this.weapon = weapon;
     }
     takeDammage(attaquant, Players){
         Main.sendMessage(`${attaquant.name} a fait perdre ${attaquant.weapon.dammage} hp à ${this.name}`, "actions");
@@ -20,13 +21,8 @@ module.exports.Player = class Player {
         this.health += this.heal_potion;
         Main.sendMessage(`${this.name} s'est soigné de ${this.heal_potion}hp`, "actions");
     }
-};
-
-class Weapons {
-    constructor(name = "Sword", health = 10, dammage = 50){
-        this.name = name;
-        this.health = health;
-        this.dammage = dammage;
+    NewWeapon(name, health, dammage){
+        this.weapon = new WeaponsConstructor(name, health, dammage);
     }
 };
 
@@ -45,7 +41,6 @@ function getStatsPlayer(playertag, Players, args){
 }
 
 function getPlayerProfil(playertag, Players){
-    let i = 0
     let playerpos = [];
     for (let i = 0; i < Players.length; i++) {
         if(Players[i].name == playertag){

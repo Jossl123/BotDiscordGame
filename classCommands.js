@@ -63,6 +63,11 @@ function createCommand(){
         "Change the hour of the auto message",
         "Put in arguments in first position : the hour, in second position : the minutes"
     );
+    CommandsArr[CommandsArr.length] = new Commands(
+        "buy",
+        "In the shop, you can replace your weapon by buy it with gold",
+        "Put in arguments the name of the item you want"
+    );
     
 }
 

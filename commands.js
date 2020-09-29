@@ -8,12 +8,43 @@ const Main = require('./main.js');
 const ConstructFonc = require('./constructor').Functions;
 const PlayerConstructor = require('./constructor').Player;
 const CommandsFunctions = require('./classCommands');
+const weaponsArr = require('./weaponsConstructor').WeaponsArr;
+const weaponsNameArr = require('./weaponsConstructor').WeaponsNameArr;
+const weaponsConstructor = require('./weaponsConstructor').Functions;
 
 let heure = 12;
 let minute = 0;
 let heurepassé = false;
 
-function messageEnter(message, datefonc, args, command, Players, admin){
+function messageEnter(message, datefonc, args, command, Players, admin, shop, PlayersName){
+
+    if(command == "buy"){
+        if(message.channel == shop){
+            if(PlayersName.includes(message.author.tag)){
+                playerProfil = Players[PlayersName.indexOf(`${message.author.tag}`)];
+                if(args != ""){
+                    if(weaponsNameArr.includes(`${args}`)){
+                        weaponProfil = weaponsArr[weaponsNameArr.indexOf(`${args}`)];
+                        if(playerProfil.gold >= weaponProfil.cost){
+                            playerProfil.weapon = weaponProfil;
+                            playerProfil.gold -= weaponProfil.cost;
+                            Main.sendMessage(`You have buy the ${playerProfil.weapon.name}`, "shop");
+                        }else{
+                            Main.sendMessage(`You can't buy this, you're poor. You need ${weaponProfil.cost - playerProfil.gold} gold more`, "shop");
+                        }
+                    }else{
+                        Main.sendMessage("This item doesn't exist", "shop");
+                    }
+                }else{
+                    message.delete();
+                    Main.sendMessage("You must indicate an item to buy", "shop");
+                }
+            }
+        }else{
+            message.delete();
+            Main.sendMessage("Not the good channel", message.channel);
+        }
+    }
 
     if(command == "help"){
         CommandsFunctions.help(args);
@@ -50,7 +81,7 @@ function messageEnter(message, datefonc, args, command, Players, admin){
     }
 };
 
-function messageAdminEnter(message, datefonc, args, command, Players, admin){
+function messageAdminEnter(message, datefonc, args, command, Players, admin, PlayersName){
     
     if(command == "sethour"){
         if(parseInt(args[0]) && parseInt(args[1]) || args[0] == 0 && parseInt(args[1]) || parseInt(args[0]) && args[1] == 0){
@@ -76,8 +107,8 @@ function messageAdminEnter(message, datefonc, args, command, Players, admin){
 
     if(command == "dammage"){
         if(args != ""){
-            if(ConstructFonc.getPlayerProfil(args, Players)){
-                Players[ConstructFonc.getPlayerProfil(args, Players)].takeDammage(Players[ConstructFonc.getPlayerProfil(message.author.tag, Players)], Players);
+            if(Players.includes(message.author.tag)){
+                Players[Players.includes(message.author.tag)].takeDammage(Players[Players.includes(message.author.tag)], Players);
             }else{
                 Main.sendMessage("You have to write a valid name", "general");
             }
