@@ -108,7 +108,7 @@ function splicePlayer(playerpos){
 function AddPlayer(args){
     if(!args == ""){
         Players[Players.length] = new PlayerConstructor(args);
-        PlayersName[PlayersName.length] = Players[Players[Players.length - 1]].name;
+        PlayersName[PlayersName.length] = Players[Players.length - 1].name;
         sendMessage(`${args} have been added to the game`, "general");
     }else{
         sendMessage(`You have to write a name`, "general");

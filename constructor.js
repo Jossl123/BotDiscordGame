@@ -8,6 +8,8 @@ module.exports.Player = class Player {
         this.heal_potion = heal_potion;
         this.gold = gold;
         this.weapon = weapon;
+        this.inventaire = []
+        this.inventaire[0] = this.weapon;
     }
     takeDammage(attaquant, Players){
         Main.sendMessage(`${attaquant.name} a fait perdre ${attaquant.weapon.dammage} hp à ${this.name}`, "actions");
@@ -35,6 +37,7 @@ function getStatsPlayer(playertag, Players, args){
     const i = getPlayerProfil(playertag, Players);
     if(args == ""){
         Main.sendMessage(`Vous êtes ${Players[i].name} et vous avez ${Players[i].health}hp `, "general");
+        Main.sendMessage(`Voici votre inventaire : ${Players[i].inventaire}`, "general");
     }else{
         Main.sendMessage(`${Players[i].name} a ${Players[i].health}hp `, "general");
     }

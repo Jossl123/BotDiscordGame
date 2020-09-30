@@ -4,12 +4,21 @@
     "health": 100,
     "heal_potion": 10,
     "gold": 100,
+    "inventaire": [
+      {
+        "name": "Sword",
+        "othername": "sword",
+        "health": 10,
+        "dammage": 10,
+        "cost": 0
+      }
+    ],
     "weapon": {
-      "name": "Iron Sword",
-      "othername": "ironsword",
-      "health": 15,
-      "dammage": 25,
-      "cost": 25
+      "name": "Sword",
+      "othername": "sword",
+      "health": 10,
+      "dammage": 10,
+      "cost": 0
     }
   },
   {
@@ -17,6 +26,37 @@
     "health": 100,
     "heal_potion": 10,
     "gold": 100,
+    "inventaire": [
+      {
+        "name": "Sword",
+        "othername": "sword",
+        "health": 10,
+        "dammage": 10,
+        "cost": 0
+      }
+    ],
+    "weapon": {
+      "name": "Sword",
+      "othername": "sword",
+      "health": 10,
+      "dammage": 10,
+      "cost": 0
+    }
+  },
+  {
+    "name": "test",
+    "health": 100,
+    "heal_potion": 10,
+    "gold": 100,
+    "inventaire": [
+      {
+        "name": "Sword",
+        "othername": "sword",
+        "health": 10,
+        "dammage": 10,
+        "cost": 0
+      }
+    ],
     "weapon": {
       "name": "Sword",
       "othername": "sword",
